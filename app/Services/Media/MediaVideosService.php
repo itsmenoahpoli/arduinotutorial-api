@@ -30,7 +30,7 @@ class MediaVideosService extends MediaVideosRepository
 
             $video = $data['video_file'];
 
-            $filename = $video->getClientOriginalName().time().'.'.$video->getClientOriginalExtension();
+            $filename = Str::slug($video->getClientOriginalName().time()).'.'.$video->getClientOriginalExtension();
             $filepath = VIDEO_UPLOADS_DIR.$filename;
 
             Storage::disk('public')->put($filepath, file_get_contents($video));
