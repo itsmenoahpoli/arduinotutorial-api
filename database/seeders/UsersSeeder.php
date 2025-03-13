@@ -20,5 +20,12 @@ class UsersSeeder extends Seeder
             'password'  => bcrypt('password'),
             'user_type' => 'admin',
         ]);
+
+        User::query()->create([
+            'name'      => 'User Account',
+            'email'     => 'user@domain.com',
+            'password'  => bcrypt('password'),
+            'user_type' => 'client',
+        ]);
     }
 }

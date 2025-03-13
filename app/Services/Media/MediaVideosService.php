@@ -31,6 +31,7 @@ class MediaVideosService extends MediaVideosRepository
     public function create($data)
     {
         $data['name_slug'] = Str::slug($data['name']);
+        $data['thumbnail_url'] =  THUMBNAIL_PLACEHOLDER;
 
         if ($data['video_file']) {
 
@@ -39,17 +40,18 @@ class MediaVideosService extends MediaVideosRepository
             $videoFilepath = VIDEO_UPLOADS_DIR.$videoFilename;
             Storage::disk('public')->put($videoFilepath, file_get_contents($video));
 
-            if ($data['thumbnail_file'])
+            if (key_exists('thumbnail_file', $data) && $data['thumbnail_file'])
             {
                 $thumbnail = $data['thumbnail_file'];
                 $thumbnailFilename = Str::slug($thumbnail->getClientOriginalName().time()).'.'.$thumbnail->getClientOriginalExtension();
                 $thumbnailFilepath = VIDEO_UPLOADS_DIR.$thumbnailFilename;
+                $data['thumbnail_url'] = $this->createThumbnailUrl($thumbnailFilename);
 
                 Storage::disk('public')->put($thumbnailFilepath, file_get_contents($thumbnail));
             }
 
             $data['video_url'] = $this->createVideoURL($videoFilename);
-            $data['thumbnail_url'] = $data['thumbnail_file'] ? $this->createVideoURL($thumbnailFilename) : THUMBNAIL_PLACEHOLDER;
+
 
             unset($data['video_file']);
             unset($data['thumbnail_file']);

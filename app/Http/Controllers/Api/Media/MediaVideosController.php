@@ -29,6 +29,7 @@ class MediaVideosController extends Controller
      */
     public function store(CreateMediaVideoRequest $request)
     {
+
         $result = $this->mediaVideosService->create($request->validated());
 
         return response()->json($result, Response::HTTP_CREATED);
@@ -61,6 +62,6 @@ class MediaVideosController extends Controller
     {
         $result = $this->mediaVideosService->delete($id);
 
-        return response()->json($result, Response::HTTP_OK);
+        return response()->json($result, Response::HTTP_NO_CONTENT);
     }
 }
