@@ -23,20 +23,11 @@ class CreateMediaVideoRequest extends FormRequest
     {
         return [
             'name'          => 'required|string|max:255',
-            'description'   => 'nullable|string',
-            'video_file'    => 'required|file|mimetypes:video/mp4,video/x-msvideo,video/x-ms-wmv,video/quicktime,video/x-flv,video/webm',
-            'thumbnail_file' => 'nullable|file|mimetypes:image/png,image/jpeg,image/jpg',
-            'status'        => 'nullable|in:draft,published',
-            'question1'     => 'required|string|max:255',
-            'answer1'       => 'required|string|max:255',
-            'question2'     => 'required|string|max:255',
-            'answer2'       => 'required|string|max:255',
-            'question3'     => 'required|string|max:255',
-            'answer3'       => 'required|string|max:255',
-            'question4'     => 'required|string|max:255',
-            'answer4'       => 'required|string|max:255',
-            'question5'     => 'required|string|max:255',
-            'answer5'       => 'required|string|max:255',
+            'description'   => 'required|string|max:255',
+            'status'        => 'required|string|in:draft,published',
+            'video_file'    => 'required|file|mimes:mp4,webm,ogg|max:102400',
+            'thumbnail_file'=> 'required|file|mimes:jpg,jpeg,png|max:5120',
+            'questions'     => 'required|string'
         ];
     }
 }
