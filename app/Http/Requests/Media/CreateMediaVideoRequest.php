@@ -25,7 +25,7 @@ class CreateMediaVideoRequest extends FormRequest
             'name'          => 'required|string|max:255',
             'description'   => 'required|string|max:255',
             'status'        => 'required|string|in:draft,published',
-            'video_file'    => 'required|file|mimes:mp4,webm,ogg|max:102400',
+            'video_file'    => 'required|file|mimes:mp4,webm,ogg',
             'thumbnail_file'=> 'required|file|mimes:jpg,jpeg,png|max:5120',
             'questions'     => 'required|string'
         ];
