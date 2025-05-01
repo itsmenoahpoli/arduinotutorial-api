@@ -12,10 +12,22 @@ class FilesServerController extends Controller
         $filePath = $request->input('path');
 
         if (Storage::disk('public')->exists($filePath)) {
-            $fileContent = Storage::disk('public')->get($filePath);
-            $mimeType = Storage::disk('public')->mimeType($filePath);
+            $fullPath = Storage::disk('public')->path($filePath);
+            $mimeType = mime_content_type($fullPath);
+            $size = Storage::disk('public')->size($filePath);
+            $fileName = basename($filePath);
 
-            return response($fileContent, 200)->header('Content-Type', $mimeType);
+            return response()->stream(function () use ($filePath) {
+                $stream = Storage::disk('public')->readStream($filePath);
+                fpassthru($stream);
+                if (is_resource($stream)) {
+                    fclose($stream);
+                }
+            }, 200, [
+                'Content-Type' => $mimeType,
+                'Content-Disposition' => 'inline; filename="' . $fileName . '"',
+                'Content-Length' => $size,
+            ]);
         } else {
             return response()->json(['error' => 'File not found'], 404);
         }
